@@ -1,1 +1,6 @@
-<p>register works!</p>
+<form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <input formControlName="email" placeholder="Email" />
+    <input formControlName="password" placeholder="Password" type="password" />
+    <button type="submit">Registrar</button>
+  </form>
+  

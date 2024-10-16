@@ -1,0 +1,16 @@
+<form [formGroup]="turnoForm" (ngSubmit)="onSubmit()">
+    <label for="hora">Hora:</label>
+    <input formControlName="hora" type="time" />
+    
+    <label for="dia">Día:</label>
+    <input formControlName="dia" type="date" />
+    
+    <label for="servicio">Servicio:</label>
+    <select formControlName="servicio">
+      <option value="terapia">Terapia</option>
+      <option value="constelación">Constelación</option>
+    </select>
+    
+    <button type="submit">Solicitar Turno</button>
+  </form>
+  

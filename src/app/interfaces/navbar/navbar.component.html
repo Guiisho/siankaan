@@ -1,0 +1,9 @@
+<nav>
+    <a routerLink="/home">Home</a>
+    <a *NgIf="!isAdmin" routerLink="/solicitar-turno">Solicitar Turno</a>
+    <a *NgIf="isAdmin" routerLink="/clientes">Clientes</a>
+    <a routerLink="/productos">Productos</a>
+    <a routerLink="/servicios">Servicios</a>
+    <button (click)="logOut()">Cerrar Sesión</button>
+  </nav>
+  
