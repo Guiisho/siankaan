@@ -24,8 +24,8 @@ export class RegisterComponent {
   }
 
   onRegister() {
-    const { email, password } = this.registerForm.value;
-    this.authService.register(email, password).then(() => {
+    const {email, password, isAdmin } = this.registerForm.value;
+    this.authService.register(email, password, isAdmin).then(() => {
       
     });
   }

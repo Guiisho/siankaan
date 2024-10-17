@@ -1,1 +1,29 @@
-<p>clientes works!</p>
+
+<h2>Clientes</h2>
+
+<div class="container">
+
+<table class="table">
+  <thead class="thead">
+    <tr class="tr">
+        <th>Nombre</th>
+      <th>Hora</th>
+      <th>Día</th>
+      <th>Servicio</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let turno of turnos">
+        <td>{{turno.nombre}}</td>
+      <td>{{ turno.hora }}</td>
+      <td>{{ turno.dia }}</td>
+      <td>{{ turno.servicio }}</td>
+      <td>
+        <button (click)="eliminarTurno(turno.id)">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</div>

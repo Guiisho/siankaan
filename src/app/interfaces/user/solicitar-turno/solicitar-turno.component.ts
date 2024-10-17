@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { collection, collectionData, Firestore } from '@angular/fire/firestore'
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { TurnosService } from '../../../turnos.service';
 
@@ -15,21 +15,29 @@ export class SolicitarTurnoComponent {
 
   turnoForm: FormGroup;
   
-  constructor(private firestore: Firestore, 
+  constructor(public firestore: Firestore, 
     private fb:FormBuilder, 
-    private turnoService: TurnosService){
+    public turnoService: TurnosService){
       this.turnoForm = this.fb.group({
-        hora: [''],
-        dia: [''],
-        servicio: ['']
+        nombre: ['', Validators.required],
+        hora: ['', Validators.required],
+        dia: ['', Validators.required],
+        servicio: ['', Validators.required]
       });
   }
 
   onSubmit() {
-    this.turnoService.agregarTurno(this.turnoForm.value).then(() => {
-      // Mensaje de éxito
-    });
-  }
+   const {nombre, dia, hora, servicio} = this.turnoForm.value;
+   const turnosCollection= collection (this.firestore, 'turnos');
+   addDoc( turnosCollection, {
+    nombre,
+    dia,
+    hora,
+    servicio
+   }).then(() => {
+    console.log('Turno guardado con éxito');
+   })
+    };
 
   obtenerTurnos() {
     const turnos= collection(this.firestore, 'turnos');
@@ -42,12 +50,12 @@ export class SolicitarTurnoComponent {
   }
 
   actualizarTurnos(id: string, turno: any){
-    const turnoDoc= doc(this.firestore, 'turnos/${id}');
-    return updateDoc(turnoDoc, turno);
+    const turnoDoc= doc(this.firestore, `turnos/${id}`);
+    return updateDoc(turnoDoc, turno, id);
   }
 
-  eliminarTurno(){
-    const turnoDoc= doc (this.firestore, 'turnos/${id}');
+  eliminarTurno(id: string){
+    const turnoDoc= doc (this.firestore, `turnos/${id}`);
     return deleteDoc(turnoDoc);
   }
 }

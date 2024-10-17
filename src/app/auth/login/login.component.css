@@ -1,0 +1,11 @@
+
+.container{
+    background-color: aqua;
+}
+
+input{
+    margin: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

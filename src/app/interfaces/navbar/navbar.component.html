@@ -1,9 +1,8 @@
-<nav>
-    <a routerLink="/home">Home</a>
-    <a *NgIf="!isAdmin" routerLink="/solicitar-turno">Solicitar Turno</a>
-    <a *NgIf="isAdmin" routerLink="/clientes">Clientes</a>
-    <a routerLink="/productos">Productos</a>
-    <a routerLink="/servicios">Servicios</a>
-    <button (click)="logOut()">Cerrar Sesión</button>
-  </nav>
-  
+<nav *ngIf="isLoggedIn">
+  <ul>
+    <li><a routerLink="/home">Home</a></li>
+    <li *ngIf="isAdmin"><a routerLink="/clientes">Clientes</a></li>
+    <li *ngIf="!isAdmin"><a routerLink="/solicitar-turno">Solicitar Turno</a></li>
+    <li><a (click)="logOut()">Cerrar Sesión</a></li>
+  </ul>
+</nav>
