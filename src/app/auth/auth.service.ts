@@ -89,6 +89,12 @@ export class AuthService{
         }
     }
 
+     // Método para obtener el UID del usuario autenticado
+  getUserId(): string | null {
+    const currentUser = this.auth.currentUser;
+    return currentUser ? currentUser.uid : null;
+  }
+
       /*Cierra sesión y vuelve al apartado Login*/
       async logOut(){
         await signOut(this.auth);

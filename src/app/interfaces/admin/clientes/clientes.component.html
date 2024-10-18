@@ -6,16 +6,14 @@
 <table class="table">
   <thead class="thead">
     <tr class="tr">
-        <th>Nombre</th>
       <th>Hora</th>
-      <th>Día</th>
+      <th>Dia</th>
       <th>Servicio</th>
       <th>Acciones</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let turno of turnos">
-        <td>{{turno.nombre}}</td>
       <td>{{ turno.hora }}</td>
       <td>{{ turno.dia }}</td>
       <td>{{ turno.servicio }}</td>

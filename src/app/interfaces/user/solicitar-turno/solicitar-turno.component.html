@@ -1,29 +1,35 @@
-<form [formGroup]="turnoForm" (ngSubmit)="onSubmit()">
+<h3>Selecciona una fecha, hora y servicio para tu turno</h3>
 
-  <input for="nombre" formControlName="nombre" type="text" placeholder="Nombre">
-
+<form #turnoForm="ngForm">
+  <!-- Fecha -->
+  <label for="fecha">Día:</label>
+  <input type="date" id="fecha" [(ngModel)]="selectedDate" (change)="checkTurnosReservados()" [min]="todayDate" name="fecha" required>
+  
+  <!-- Hora -->
   <label for="hora">Hora:</label>
-  <select formControlName="hora">
-    <option value="9:00 | 10:00">9:00 | 10:00</option>
-    <option value="11:00 | 12:00">11:00 | 12:00</option>
-    <option value="13:00 | 14:00">13:00 | 14:00</option>
-    <option value="15:00 | 16:00">15:00 | 16:00</option>
-    <option value="17:00 | 18:00">17:00 | 18:00</option>
+  <select id="hora" [(ngModel)]="selectedHora" name="hora" required>
+    <option *ngFor="let time of horariosDisponibles" [value]="time" [disabled]="isDisabled(time)">
+      {{ time }}
+    </option>
   </select>
-    
-    <label for="dia">Día:</label>
-    <input formControlName="dia" type="date" />
-    
-    <label for="servicio">Servicio:</label>
-    <select formControlName="servicio">
-      <option value="terapia">Terapia</option>
-      <option value="constelación">Constelación</option>
-    </select>
-    
-    <button type="submit">Solicitar Turno</button>
-  </form>
-  
 
-  
-    
-    
+  <!-- Servicio -->
+  <label for="servicio">Servicio:</label>
+  <select id="servicio" [(ngModel)]="selectedServicio" name="servicio" required>
+    <option *ngFor="let servicio of servicios" [value]="servicio">{{ servicio }}</option>
+  </select>
+
+  <!-- Botón para solicitar el turno -->
+  <button type="button" (click)="solicitarTurno()" [disabled]="!turnoForm.valid || isTurnoAsignado">
+    Solicitar Turno
+  </button>
+</form>
+
+<p *ngIf="mensajeError">{{ mensajeError }}</p>
+
+<div *ngIf="turnoAsignado" class="turno-asignado">
+  <h3>Su turno:</h3>
+  <p><strong>Fecha:</strong> {{ turnoAsignado.fecha }}</p>
+  <p><strong>Hora:</strong> {{ turnoAsignado.hora }}</p>
+  <p><strong>Estado:</strong> {{ turnoAsignado.estado }}</p>
+</div>
