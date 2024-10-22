@@ -24,8 +24,8 @@ export class TurnosService {
   // Obtener todos los turnos una vez (sin Observable)
   async getTurnosOnce(): Promise<any[]> {
     const turnosCollection = collection(this.firestore, 'turnos');  // Referencia a la colección 'turnos'
-    const snapshot = await getDocs(turnosCollection);  // Obtener todos los documentos de la colección
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));  // Mapear los datos obtenidos
+    const snapshot = await getDocs(turnosCollection);  /* Obtener todos los documentos de la colección */
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));  /* Mapear los datos obtenidos */
   }
 
   async getTurnosByDate(dia: string){
@@ -42,15 +42,15 @@ export class TurnosService {
     return addDoc(turnosRef, turno); /* agrega el turno a la colección turnos */
   }
 
-  // Método para cancelar un turno
+  /* Método para cancelar un turno */
   cancelarTurno(turnoId: string): Promise<void> {
     const turnoRef = doc(this.firestore, 'turnos', turnoId);
     return updateDoc(turnoRef, { estado: 'cancelado' });
   }
 
-  // Método para liberar turnos pasados
+  /* Método para liberar turnos pasados */
   liberarTurnosPasados() {
-    const today = new Date().toISOString().split('T')[0]; // Obtener la fecha actual
+    const today = new Date().toISOString().split('T')[0]; /* Obtener la fecha actual */
     const turnosCollection = collection(this.firestore, 'turnos');
     const queryTurnosPasados = query(turnosCollection, where('fecha', '<', today), where('estado', '==', 'reservado'));
   
@@ -59,5 +59,11 @@ export class TurnosService {
         updateDoc(doc.ref, { estado: 'completado' });
       });
     });
+  }
+
+  getUserTurno(usuarioId: string){
+    const turnoRef= collection(this.firestore, 'turnos');
+    const q= query(turnoRef, where('usuarioId', '==', usuarioId));
+    return getDocs(q);
   }
 }

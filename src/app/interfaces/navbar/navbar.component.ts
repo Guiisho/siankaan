@@ -1,16 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 
+  isAuthenticated: boolean= false;
   isLoggedIn: boolean= false;
   isAdmin: boolean= false;
 
@@ -26,6 +28,10 @@ export class NavbarComponent {
         this.isLoggedIn= false;
       }
     });
+  }
+
+  ngOnInit(): void {
+    
   }
 
  

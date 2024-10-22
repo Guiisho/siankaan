@@ -19,15 +19,14 @@ export class RegisterComponent {
   constructor(private fb: FormBuilder, public authService: AuthService) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
     });
   }
 
-  onRegister() {
-    const {email, password, isAdmin } = this.registerForm.value;
-    this.authService.register(email, password, isAdmin).then(() => {
-      
-    });
+  async onRegister() {
+    const {email, password } = await this.registerForm.value;
+    this.authService.register(email, password);
+    this.authService.router.navigate(['/home']);
   }
 
 }

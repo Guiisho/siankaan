@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core"; 
 import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, User } from "@angular/fire/auth";
 import { doc, Firestore, getDoc, setDoc } from "@angular/fire/firestore";
-import { Router } from "@angular/router"; 
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: "root"
@@ -10,6 +9,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 
 export class AuthService{
 
+    currentUser: any = null;
     public user: any= null;
     public userRole: string | null = null;
 
@@ -17,18 +17,33 @@ export class AuthService{
         private auth: Auth,
         private firestore: Firestore,
     ) {
-        onAuthStateChanged(this.auth, (user) =>{
+        this.auth.onAuthStateChanged(user =>{
             if(user){
-                this.user= user;
-                this.getUserRole(user.uid);
-            } else{
-                this.user= null;
+                this.currentUser= user;
+            } else {
+                this.currentUser= null;
             }
         })
     }
+
+    getCurrentUser(): Promise<any> {
+        return new Promise((resolve, reject) => {
+          this.auth.onAuthStateChanged((user) => {
+            if (user) {
+              resolve(user); // Usuario autenticado
+            } else {
+              reject(null);  // No hay usuario autenticado
+            }
+          });
+        });
+      }
     
     getAuthState(){
         return authState(this.auth);
+    }
+
+    isLoggedIn():boolean{
+        return this.currentUser != null;
     }
    
 
@@ -50,30 +65,26 @@ export class AuthService{
       }
 
     /* Registra al usuario con un rol específico */
-    async register(email: string, password: string, isAdmin: boolean){
+    async register(email: string, password: string){
         try {
             const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
             const user = userCredential.user;
 
-            await setDoc(doc(this.firestore, 'users', user.uid), {
+            let role = 'user';
+            if(email === 'alarconguille556@gmail.com'){
+                role= 'admin';
+                this.router.navigate(['/home']);
+            } else{
+                role= 'user';
+                this.router.navigate(['/home']);
+            }
+
+            await setDoc(doc(this.firestore, `users/${user.uid}`), {
                 email: user.email,
-                role: isAdmin ? 'admin' : 'user'
+                role: role
             });
         } catch (error) {
             console.log('Error al registrar', error);
-        }
-          /* Si el usuario tiene este email, es admin */
-          if (this.user) {
-            const role= email === 'alarconguille556@gmail.com' ? 'admin' : 'user';
-            const userDocRef= doc(this.firestore, `users/${this.user.uid}`);
-             setDoc(userDocRef, {
-                email: this.user.email,
-                role: role,
-            });
-          this.getUserRole(this.user.uid); // Verifica el rol después del inicio de sesión
-          this.router.navigate(['/login']);
-        } else {
-            this.router.navigate(['/login']);
         }
        
     }
@@ -97,7 +108,9 @@ export class AuthService{
 
       /*Cierra sesión y vuelve al apartado Login*/
       async logOut(){
-        await signOut(this.auth);
+        await this.auth.signOut().then(() => {
+            this.router.navigate(['/login']);
+        });
         this.userRole= null;
         this.router.navigate(['/login']); /* Redirige al apartado Login después de cerrar sesión */
     }

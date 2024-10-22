@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { collection, collectionData, Firestore } from '@angular/fire/firestore'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { addDoc, deleteDoc, doc } from 'firebase/firestore';
+import { addDoc, deleteDoc, doc, QuerySnapshot } from 'firebase/firestore';
 import { TurnosService } from '../../../turnos.service';
 import { AuthService } from '../../../auth/auth.service';
 import { CommonModule } from '@angular/common';
@@ -23,7 +23,7 @@ export class SolicitarTurnoComponent {
   turnosReservados: any[] = [];
   todayDate: string= '';
   horariosOcupados: string[]= [];
-  horariosDisponibles= ['9:00', '10:30', '12:00', '13:30', '15:00', '16:30'];
+  horariosDisponibles= ['9:00', '11:00', '13:00', '15:00', '17:00'];
   userName: string | null= null;
   turnoForm: FormGroup;
   isTurnoAsignado: boolean= false; /* Para deshabilitar el botón si ya está asignado */
@@ -55,6 +55,27 @@ export class SolicitarTurnoComponent {
           this.horariosOcupados= turnos.map(turno => turno['time'])
         });
       });
+  }
+
+   ngOnInit(): void{
+    this.authService.getCurrentUser().then((user) => {
+      if (user && user.uid) {
+        const userId = user.uid;
+  
+        this.turnoService.getUserTurno(userId).then((querySnapshot) => {
+          const turnos = querySnapshot.docs.map(doc => doc.data());
+  
+          if (turnos.length > 0) {
+            this.turnoAsignado = turnos[0]; // Asigna el primer turno encontrado
+            this.turnoForm.disable(); // Desactiva el formulario
+          }
+        }).catch(error => {
+          console.error('Error obteniendo el turno:', error);
+        });
+      }
+    }).catch(error => {
+      console.error('Error obteniendo el usuario actual:', error);
+    });
   }
 
   isDisabled(hora: string): boolean{
@@ -114,10 +135,11 @@ checkTurnosReservados() {
   const turnosRef = collection(this.firestore, 'turnos');
   collectionData(turnosRef).subscribe((turnos: any[]) => {
     // Filtrar turnos para la fecha seleccionada
-    const turnosParaFecha = turnos.filter(turno => turno.fecha === this.selectedDate);
+    const turnosParaFecha = turnos.filter(turno => turno.dia === this.selectedDate);
     // Mapear las horas ocupadas
     this.horariosOcupados = turnosParaFecha.map(turno => turno.hora);
   });
 }
+
 }
 
