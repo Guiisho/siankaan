@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+html, body{
+    background: linear-gradient(60deg, rgb(243, 172, 183), rgb(217, 143, 219), rgb(228, 97, 233));
+    min-height: 100%;
+    font-family: "Poppins", sans-serif;
+ }

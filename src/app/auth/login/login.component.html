@@ -1,12 +1,24 @@
-<div class="container">
+<div class="wrapper">
+  <div class="body">
+    <img src="../../../assets/Imagenes/user.png" alt="">
+  <h1><strong>Iniciar sesión</strong></h1>
 
-<h1>Iniciar sesión</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <div class="form-floating mb-3">
+      <input class="form-control" formControlName="email" placeholder="Correo electrónico">
+      <label>Correo electrónico</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input class="form-control" type="password" formControlName="password" placeholder="Contraseña">
+      <label>Contraseña</label>
+    </div>
 
-<form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-    <input formControlName="email" placeholder="Email" />
-    <input formControlName="password" placeholder="Password" type="password"/>
-    <button type="submit">Iniciar sesión</button>
-    <p> ¿No tienes una cuenta? <a routerLink="/register"> Regístrate aquí</a></p>
+    <div class="d-grid gap-2">
+      <button class="btn btn-primary btn-lg" type="submit"> <strong>Ingresar</strong></button>
+    </div>
+
+    <p class="mt-3"><strong>¿No tienes una cuenta? </strong> <a routerLink="/register"> <strong>Registrate</strong></a></p>
   </form>
-  
+  </div>
 </div>
+

@@ -1,10 +1,11 @@
-.container{
+.wrapper{
+    margin: 2rem;
     display: flex;
+    height: 80vh;
     justify-content: center;
-    align-items: center;
-    background-color: aqua;
 }
 
 .tr{
     background-color: antiquewhite;
+    text-align: center;
 }

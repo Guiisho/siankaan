@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class ClientesComponent {
 
-  userName: string = '';
+  
   turnos$: Observable<any[]>;
   turnos: any[] = [];
 

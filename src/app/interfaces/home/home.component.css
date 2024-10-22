@@ -1,0 +1,142 @@
+
+.home{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8rem;
+    background-color: transparent;
+}
+
+.home-content h1{
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-shadow: 0 0 0 10px black;
+}
+
+span{
+    color: pink;
+}
+
+.home-content h3{
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.home-content p{
+    color: #fff;
+}
+
+
+.home-img img{
+    position:relative;
+    width: 32vw;
+    border-radius: 50%;
+    box-shadow: 0 3px 13px 3px #fff;
+    cursor: pointer;
+    transition: 0.2s linear;
+}
+
+.home-img img:hover{
+    font-size: 1.8rem;
+    font-weight: 500;
+    transform: scale(1.02);
+}
+
+.social-icons a{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    background-color: transparent;
+    border: 0.2rem solid #fff;
+    font-size: 2rem;
+    border-radius: 50%;
+    margin: 3rem 1.5rem 3rem;
+    transition: 0.3s ease;
+    color: #fff;
+}
+
+
+/* TAMAÑO DEL ICONO AL PASAR */
+.social-icons a:hover{
+    transform: scale(1.2) translateY(-5px); /* Al pasar el mouse se agranda con scale y sube con translateY */
+    box-shadow: 0 0 25px #fff;
+    border: 0.2rem solid #fff;
+    color: #fff;
+    background-color: pink;
+}
+
+section{
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem 9% 5rem;
+}
+
+.typing-text{
+    font-size: 34px;
+    font-weight: 600;
+    min-width: 280px;
+}
+
+.typing-text span{
+    position: relative;
+}
+
+.typing-text span::before{
+    content: "Consteladora";
+    color: pink;
+    animation: words 20s infinite;
+}
+
+@keyframes words {
+    0%, 20% {
+        content: "Terapeuta";
+    }
+    21%, 40%{
+        content: "Coach Espiritual";
+    }
+    41%, 60%{
+        content: "Reikista";
+    }
+    61%, 80%{
+        content: "Coach Ontológica";
+    }
+    81%, 100%{
+        content: "Biomagnetista";
+    }
+}
+
+@media (max-width:1000px){
+    .home{
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 995px){
+    .home{
+        flex-direction: column;
+        margin: 2rem 2rem;
+    }
+
+    .home .home-content h3{
+        font-size: 1.5rem;
+        justify-content: center;
+    }
+
+    .home-content h1{
+        font-size: 5rem;
+        
+    }
+
+    .home-img img{
+        width: 40vh;
+        margin-top: 4rem;
+    }
+}

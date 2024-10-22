@@ -91,7 +91,7 @@ export class SolicitarTurnoComponent {
   /* Método que guarda y valida los datos del usuario */
  solicitarTurno(){
   const turno={
-    usuarioId: this.authService.getUserId(), /* Obtener el ID del usuario actual */
+    email: this.authService.user.email, /* Obtener el ID del usuario actual */
     fecha: this.selectedDate,
     hora: this.selectedHora,
     servicio: this.selectedServicio,
@@ -122,10 +122,11 @@ export class SolicitarTurnoComponent {
   }
 
   onSubmit() {
-    const {dia, hora, servicio} = this.turnoForm.value;
+    const {email, fecha, hora, servicio} = this.turnoForm.value;
     const turnosCollection= collection (this.firestore, 'turnos');
     addDoc( turnosCollection, {
-     dia,
+      email,
+     fecha,
      hora,
      servicio
     })
