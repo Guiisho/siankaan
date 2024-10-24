@@ -1,5 +1,7 @@
 
 
+<div class="wrapper">
+  <   <div class="body">
 <form *ngIf="!turnoAsignado" #turnoForm="ngForm">
 
   <!-- Titulo -->
@@ -7,7 +9,7 @@
 
   <!-- Fecha -->
   <label for="fecha">Día:</label>
-  <input type="date" id="fecha" [(ngModel)]="selectedDate" (change)="checkTurnosReservados()" [min]="todayDate" name="fecha" required>
+  <input type="date" id="fecha" [(ngModel)]="selectedDate" (change)="checkTurnosReservados()" [min]="tomorrow" name="fecha" required>
   
   <!-- Hora -->
   <label for="hora">Hora:</label>
@@ -32,8 +34,6 @@
 <p *ngIf="mensajeError">{{ mensajeError }}</p>
 
 
-    <div class="wrapper">
-  <   <div class="body">
   
       <div *ngIf="turnoAsignado">
   <h3>Su turno:</h3>

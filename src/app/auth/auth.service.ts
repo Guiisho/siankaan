@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core"; 
-import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, User } from "@angular/fire/auth";
+import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "@angular/fire/auth";
 import { doc, Firestore, getDoc, setDoc } from "@angular/fire/firestore";
 import { Router } from "@angular/router";
 
@@ -101,9 +101,9 @@ export class AuthService{
     }
 
      // Método para obtener el UID del usuario autenticado
-  getUserId(): string | null {
-    const currentUser = this.auth.currentUser;
-    return currentUser ? currentUser.uid : null;
+  async getUserId(): Promise<string | null> {
+    const user = await this.getCurrentUser();
+      return user ? user.uid : null;
   }
 
       /*Cierra sesión y vuelve al apartado Login*/

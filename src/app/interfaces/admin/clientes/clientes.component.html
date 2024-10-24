@@ -15,9 +15,9 @@
   </thead>
   <tbody>
     <tr *ngFor="let turno of turnos">
-      <td>{{ turno.email}}</td>
+      <td>{{ turno.usuario}}</td>
       <td>{{ turno.hora }}</td>
-      <td>{{ turno.dia }}</td>
+      <td>{{ turno.fecha }}</td>
       <td>{{ turno.servicio }}</td>
       <td>
         <button (click)="eliminarTurno(turno.id)">Eliminar</button>

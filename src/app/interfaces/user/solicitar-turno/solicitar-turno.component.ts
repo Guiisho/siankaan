@@ -21,7 +21,9 @@ export class SolicitarTurnoComponent {
   selectedHora: string= '';
   selectedServicio: string= '';
   turnosReservados: any[] = [];
+  today: Date= new Date();
   todayDate: string= '';
+  tomorrow: string='';
   horariosOcupados: string[]= [];
   horariosDisponibles= ['9:00', '11:00', '13:00', '15:00', '17:00'];
   userName: string | null= null;
@@ -35,8 +37,6 @@ export class SolicitarTurnoComponent {
     public turnoService: TurnosService,
     public authService: AuthService){
 
-      const today= new Date();
-      this.todayDate= today.toISOString().split('T') [0];
 
       this.authService.getAuthState().subscribe(user => {
         if(user) {
@@ -55,29 +55,34 @@ export class SolicitarTurnoComponent {
           this.horariosOcupados= turnos.map(turno => turno['time'])
         });
       });
+
   }
 
-   ngOnInit(): void{
-    this.authService.getCurrentUser().then((user) => {
-      if (user && user.uid) {
-        const userId = user.uid;
   
-        this.turnoService.getUserTurno(userId).then((querySnapshot) => {
-          const turnos = querySnapshot.docs.map(doc => doc.data());
-  
-          if (turnos.length > 0) {
-            this.turnoAsignado = turnos[0]; // Asigna el primer turno encontrado
-            this.turnoForm.disable(); // Desactiva el formulario
-          }
-        }).catch(error => {
-          console.error('Error obteniendo el turno:', error);
-        });
+
+   ngOnInit():void{
+
+    this.authService.getCurrentUser().then((user) =>{
+      if (user && user.email){
+        const userEmail = user.email;
+
+        this.getTurnoAsignado(userEmail);
+      } else {
+        console.log('Error, no se pudo obtener el email del usuario');
       }
-    }).catch(error => {
-      console.error('Error obteniendo el usuario actual:', error);
-    });
+    }).catch((error) => {
+      console.log('Error', error)
+    })
+    
+    this.todayDate= this.today.toISOString().split('T') [0]; /* Obtiene la fecha de hoy */
+    /* Calcular la fecha de mañana */
+    const tomorrow= new Date(this.todayDate);
+    tomorrow.setDate(this.today.getDate()); /* NOTA: Si pongo +1 al lado de getDate() toma el valor de pasado mañana */
+    this.tomorrow= tomorrow.toISOString().split('T') [0];
+
   }
 
+  /* Método para verificar si una hora está deshabilitada (ocupada) */
   isDisabled(hora: string): boolean{
     return this.horariosOcupados.includes(hora);
   }
@@ -89,30 +94,47 @@ export class SolicitarTurnoComponent {
   }
 
   /* Método que guarda y valida los datos del usuario */
- solicitarTurno(){
-  const turno={
-    email: this.authService.user.email, /* Obtener el ID del usuario actual */
-    fecha: this.selectedDate,
-    hora: this.selectedHora,
-    servicio: this.selectedServicio,
-    estado: 'reservado'
-  };
-
-
-  /* Verificar si ya está reservado el turno */
-  if(this.horariosOcupados.includes(this.selectedHora)){
-    this.mensajeError= 'El turno ya ha sido asignado para esa hora.';
+ solicitarTurno() {
+  const userId= this.authService.getUserId();
+  if(!userId){
+    console.log('El id del usuario no es válido.');
+    this.mensajeError= 'Debe iniciar sesión para solicitar el turno';
+    return;
   }
 
-  this.turnoService.solicitarTurno(turno).then(() =>{
+  this.authService.getCurrentUser().then((user) =>{
+    if(user && user.email){
+      const turno= {
+        usuario: user.email, /* Obtener el ID del usuario actual */
+        fecha: this.selectedDate,
+        hora: this.selectedHora,
+        servicio: this.selectedServicio,
+        estado: 'reservado'
+      };
+    
+       /* Guarda el turno en Firebase */
+  this.turnoService.addTurno(turno).then(() =>{
     alert('Turno solicitado exitosamente');
+
+     // Guardamos el turno localmente para mostrarlo después
     this.turnoAsignado= turno;
+
+     // Actualizar la lista de turnos ocupados
     this.checkTurnosReservados(); /* Actualizar lista de turnos ocupados */
-    this.isTurnoAsignado= true; /* Deshabilitar el botón tras la asignación */
+
+     // Deshabilitar el formulario para evitar que el usuario solicite otro turno
     this.turnoForm.disable();
   }).catch((error) =>{
     console.log('Error al solicitar el turno:', error);
+  });
+    }
   })
+ 
+  /* Verificar si ya está reservado el turno */
+  if(this.horariosOcupados.includes(this.selectedHora)) {
+    this.mensajeError= 'El turno ya ha sido asignado para esa hora.';
+    return;
+  }
  }
 
  /* Método que elimina el turno, válido para el admin */
@@ -122,25 +144,46 @@ export class SolicitarTurnoComponent {
   }
 
   onSubmit() {
-    const {email, fecha, hora, servicio} = this.turnoForm.value;
+    const { fecha, hora, servicio} = this.turnoForm.value;
     const turnosCollection= collection (this.firestore, 'turnos');
     addDoc( turnosCollection, {
-      email,
      fecha,
      hora,
      servicio
     })
 }
 
-checkTurnosReservados() {
+  checkTurnosReservados() {
   const turnosRef = collection(this.firestore, 'turnos');
   collectionData(turnosRef).subscribe((turnos: any[]) => {
-    // Filtrar turnos para la fecha seleccionada
-    const turnosParaFecha = turnos.filter(turno => turno.dia === this.selectedDate);
-    // Mapear las horas ocupadas
+    /* Filtrar turnos para la fecha seleccionada */
+    const turnosParaFecha = turnos.filter(turno => turno.fecha === this.selectedDate);
+    /* Mapear las horas ocupadas */
     this.horariosOcupados = turnosParaFecha.map(turno => turno.hora);
-  });
-}
+    });
+  }
 
+  getTurnoAsignado(userId: string){
+    
+    this.turnoService.getUserTurno(userId).then((querySnapshot) => {
+     if (!querySnapshot.empty) {
+      const turnos = querySnapshot.docs.map(doc => doc.data())
+      console.log('Turno recuperado', turnos);
+      
+      if(turnos.length > 0){
+        this.turnoAsignado= turnos [0];
+        console.log('turno asignado', this.turnoAsignado);
+
+        this.turnoForm.disable();
+      } else {
+        console.log('No se encontró un turno para este usuario');
+      }
+     } else {
+      console.log('No se encontraron turnos en la base de datos para este usuario');
+     }
+    }).catch(error =>{
+      console.log('Error obteniendo el turno', error)
+    })
+  }
 }
 
