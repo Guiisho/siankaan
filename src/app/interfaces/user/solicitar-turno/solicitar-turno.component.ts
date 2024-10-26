@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { collection, collectionData, Firestore } from '@angular/fire/firestore'
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { addDoc, deleteDoc, doc, QuerySnapshot } from 'firebase/firestore';
+import { addDoc } from 'firebase/firestore';
 import { TurnosService } from '../../../turnos.service';
 import { AuthService } from '../../../auth/auth.service';
 import { CommonModule } from '@angular/common';
@@ -17,6 +17,8 @@ import { CommonModule } from '@angular/common';
 export class SolicitarTurnoComponent {
 
   servicios: string[] = ['Consulta General', 'Terapia', 'Constelación'];
+  selectedNombre: string= '';
+  selectedTelefono: string= '';
   selectedDate: string= '';
   selectedHora: string= '';
   selectedServicio: string= '';
@@ -31,6 +33,7 @@ export class SolicitarTurnoComponent {
   isTurnoAsignado: boolean= false; /* Para deshabilitar el botón si ya está asignado */
   mensajeError: string= '';
   turnoAsignado: any = null;
+  loading: boolean = true;
   
   constructor(public firestore: Firestore, 
     private fb:FormBuilder, 
@@ -45,6 +48,8 @@ export class SolicitarTurnoComponent {
       }) 
 
       this.turnoForm = this.fb.group({
+        nombre: ['', Validators.required],
+        telefono: ['', Validators.required],
         hora: ['', Validators.required],
         dia: ['', Validators.required],
         servicio: ['', Validators.required]
@@ -77,7 +82,7 @@ export class SolicitarTurnoComponent {
     this.todayDate= this.today.toISOString().split('T') [0]; /* Obtiene la fecha de hoy */
     /* Calcular la fecha de mañana */
     const tomorrow= new Date(this.todayDate);
-    tomorrow.setDate(this.today.getDate()); /* NOTA: Si pongo +1 al lado de getDate() toma el valor de pasado mañana */
+    tomorrow.setDate(this.today.getDate()+1); /* NOTA: Si pongo +1 al lado de getDate() toma el valor de pasado mañana */
     this.tomorrow= tomorrow.toISOString().split('T') [0];
 
   }
@@ -103,9 +108,11 @@ export class SolicitarTurnoComponent {
   }
 
   this.authService.getCurrentUser().then((user) =>{
-    if(user && user.email){
+    if(user && user.uid){
       const turno= {
         usuario: user.email, /* Obtener el ID del usuario actual */
+        nombre: this.selectedNombre,
+        telefono: this.selectedTelefono,
         fecha: this.selectedDate,
         hora: this.selectedHora,
         servicio: this.selectedServicio,
@@ -114,7 +121,6 @@ export class SolicitarTurnoComponent {
     
        /* Guarda el turno en Firebase */
   this.turnoService.addTurno(turno).then(() =>{
-    alert('Turno solicitado exitosamente');
 
      // Guardamos el turno localmente para mostrarlo después
     this.turnoAsignado= turno;
@@ -135,18 +141,14 @@ export class SolicitarTurnoComponent {
     this.mensajeError= 'El turno ya ha sido asignado para esa hora.';
     return;
   }
- }
-
- /* Método que elimina el turno, válido para el admin */
-  eliminarTurno(id: string){
-    const turnoDoc= doc (this.firestore, `turnos/${id}`);
-    return deleteDoc(turnoDoc);
-  }
+}
 
   onSubmit() {
-    const { fecha, hora, servicio} = this.turnoForm.value;
+    const {nombre, telefono, fecha, hora, servicio} = this.turnoForm.value;
     const turnosCollection= collection (this.firestore, 'turnos');
     addDoc( turnosCollection, {
+      nombre,
+      telefono,
      fecha,
      hora,
      servicio

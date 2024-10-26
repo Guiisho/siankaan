@@ -1,19 +1,25 @@
 
 
 <div class="wrapper">
-  <   <div class="body">
+    <div class="body">
 <form *ngIf="!turnoAsignado" #turnoForm="ngForm">
 
   <!-- Titulo -->
-  <h3>Selecciona una fecha, hora y servicio para tu turno</h3>
+  <h3 class="mb-3">Ingresa tus datos para asignar un turno</h3>
+
+  <label for="nombre">Nombre completo:</label>
+  <input class="form-control mb-3" type="text" id="nombre" name="nombre" [(ngModel)]="selectedNombre" required>
+
+  <label for="telefono">Teléfono:</label>
+  <input class="form-control mb-3" type="number" id="telefono" name="telefono" [(ngModel)]="selectedTelefono" required>
 
   <!-- Fecha -->
   <label for="fecha">Día:</label>
-  <input type="date" id="fecha" [(ngModel)]="selectedDate" (change)="checkTurnosReservados()" [min]="tomorrow" name="fecha" required>
+  <input class="form-control mb-3" type="date" id="fecha" [(ngModel)]="selectedDate" (change)="checkTurnosReservados()" [min]="tomorrow" name="fecha" required>
   
   <!-- Hora -->
   <label for="hora">Hora:</label>
-  <select id="hora" [(ngModel)]="selectedHora" name="hora" required>
+  <select class="form-select mb-3" id="hora" [(ngModel)]="selectedHora" name="hora" required>
     <option *ngFor="let time of horariosDisponibles" [value]="time" [disabled]="isDisabled(time)">
       {{ time }}
     </option>
@@ -21,25 +27,47 @@
 
   <!-- Servicio -->
   <label for="servicio">Servicio:</label>
-  <select id="servicio" [(ngModel)]="selectedServicio" name="servicio" required>
+  <select class="form-select mb-3" id="servicio" [(ngModel)]="selectedServicio" name="servicio" required>
     <option *ngFor="let servicio of servicios" [value]="servicio">{{ servicio }}</option>
   </select>
 
   <!-- Botón para solicitar el turno -->
-  <button type="button" (click)="solicitarTurno()" [disabled]="!turnoForm.valid || isTurnoAsignado">
-    Solicitar Turno
-  </button>
+     <!-- Button trigger modal -->
+<button type="button" (click)="solicitarTurno()" [disabled]="!turnoForm.valid || isTurnoAsignado" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Solicitar turno
+</button>
+
+
 </form>
 
 <p *ngIf="mensajeError">{{ mensajeError }}</p>
 
 
-  
       <div *ngIf="turnoAsignado">
   <h3>Su turno:</h3>
   <p><strong>Fecha:</strong> {{ turnoAsignado.fecha }}</p>
   <p><strong>Hora:</strong> {{ turnoAsignado.hora }}</p>
+  <p><strong>Servicio:</strong> {{ turnoAsignado.servicio }}</p>
   <p><strong>Estado:</strong> {{ turnoAsignado.estado }}</p>
       </div>
     </div>
   </div>
+
+  
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">¡Enhorabuena!</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Su turno fue asignado exitosamente.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

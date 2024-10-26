@@ -61,9 +61,9 @@ export class TurnosService {
     });
   }
 
-  getUserTurno(uid: string){
+  getUserTurno(email: string){
     const turnoRef= collection(this.firestore, 'turnos');
-    const q= query(turnoRef, where('userId', '==', uid ));
+    const q= query(turnoRef, where('usuario', '==', email ));
     return getDocs(q);
   }
 }

@@ -5,11 +5,11 @@
 
   <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
     <div class="form-floating mb-3">
-      <input class="form-control" formControlName="email" placeholder="Correo electrónico">
+      <input class="form-control" formControlName="email" placeholder="Campo obligatorio" required>
       <label>Correo electrónico</label>
     </div>
     <div class="form-floating mb-3">
-      <input class="form-control" type="password" formControlName="password" placeholder="Contraseña">
+      <input class="form-control" type="password" formControlName="password" placeholder="Campo obligatorio" required>
       <label>Contraseña</label>
     </div>
 
