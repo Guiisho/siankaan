@@ -9,25 +9,32 @@ import { Observable } from 'rxjs';
 export class TurnosService {
   constructor(private firestore: Firestore) {}
 
-  // Método para obtener turnos en tiempo real como un Observable
+  /* Método para obtener turnos en tiempo real como un Observable */
   obtenerTurnos(): Observable<any[]> {
-    const turnosCollection = collection(this.firestore, 'turnos');  // Crear referencia a la colección 'turnos'
-    return collectionData(turnosCollection, { idField: 'id' });  // Retornar los datos como un observable
+    const turnosCollection = collection(this.firestore, 'turnos');  /* Crear referencia a la colección 'turnos' */
+    return collectionData(turnosCollection, { idField: 'id' });  /* Retornar los datos como un observable */
   }
 
-  // Método para añadir un nuevo turno a la colección
+  /* Método para añadir un nuevo turno a la colección */
   async addTurno(turno: any): Promise<void> {
-    const turnosCollection = collection(this.firestore, 'turnos');  // Referencia a la colección 'turnos'
-    await addDoc(turnosCollection, turno);  // Añadir un nuevo documento a la colección
+    const turnosCollection = collection(this.firestore, 'turnos');  /* Referencia a la colección 'turnos' */
+    await addDoc(turnosCollection, turno);  /* Añadir un nuevo documento a la colección */
   }
 
-  // Obtener todos los turnos una vez (sin Observable)
+  /* Método para editar un turno de la colección */
+  async editarTurno(turnoId: string, turnoData: any): Promise<void> {
+    const turnoRef = doc(this.firestore, 'turnos', turnoId);  /* Crear referencia al documento específico en 'turnos' */
+    return updateDoc(turnoRef, turnoData);  /* Actualizar el documento con los datos nuevos */
+  }
+
+  /* Obtener todos los turnos una vez (sin Observable) */
   async getTurnosOnce(): Promise<any[]> {
-    const turnosCollection = collection(this.firestore, 'turnos');  // Referencia a la colección 'turnos'
+    const turnosCollection = collection(this.firestore, 'turnos');  /* Referencia a la colección 'turnos' */
     const snapshot = await getDocs(turnosCollection);  /* Obtener todos los documentos de la colección */
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));  /* Mapear los datos obtenidos */
   }
 
+  /* Obtiene el día del turno */
   async getTurnosByDate(dia: string){
     const turnosRef= collection(this.firestore, 'turnos');
     const q= query(turnosRef, where('dia', '==', dia));
@@ -61,6 +68,7 @@ export class TurnosService {
     });
   }
 
+  /* Obtiene el email del usuario */
   getUserTurno(email: string){
     const turnoRef= collection(this.firestore, 'turnos');
     const q= query(turnoRef, where('usuario', '==', email ));

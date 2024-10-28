@@ -25,6 +25,7 @@ export class LoginComponent {
     });
   }
 
+  /* Método para loguear un usuario registrado */
   async onLogin() {
     if (this.loginForm.valid){
     const { email, password } = await this.loginForm.value;

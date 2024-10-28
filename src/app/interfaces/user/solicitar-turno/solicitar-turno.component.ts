@@ -80,7 +80,7 @@ export class SolicitarTurnoComponent {
     })
     
     this.todayDate= this.today.toISOString().split('T') [0]; /* Obtiene la fecha de hoy */
-    /* Calcular la fecha de mañana */
+    /* Calcula la fecha de mañana */
     const tomorrow= new Date(this.todayDate);
     tomorrow.setDate(this.today.getDate()+1); /* NOTA: Si pongo +1 al lado de getDate() toma el valor de pasado mañana */
     this.tomorrow= tomorrow.toISOString().split('T') [0];
@@ -110,7 +110,7 @@ export class SolicitarTurnoComponent {
   this.authService.getCurrentUser().then((user) =>{
     if(user && user.uid){
       const turno= {
-        usuario: user.email, /* Obtener el ID del usuario actual */
+        usuario: user.email, /* Obtiene el ID del usuario actual */
         nombre: this.selectedNombre,
         telefono: this.selectedTelefono,
         fecha: this.selectedDate,
@@ -122,13 +122,13 @@ export class SolicitarTurnoComponent {
        /* Guarda el turno en Firebase */
   this.turnoService.addTurno(turno).then(() =>{
 
-     // Guardamos el turno localmente para mostrarlo después
+    /* Guarda el turno localmente para mostrarlo después */
     this.turnoAsignado= turno;
 
-     // Actualizar la lista de turnos ocupados
-    this.checkTurnosReservados(); /* Actualizar lista de turnos ocupados */
+     /* Actualiza la lista de turnos ocupados */
+    this.checkTurnosReservados(); /* Actualiza lista de turnos ocupados */
 
-     // Deshabilitar el formulario para evitar que el usuario solicite otro turno
+     /* Deshabilita el formulario para evitar que el usuario solicite otro turno */
     this.turnoForm.disable();
   }).catch((error) =>{
     console.log('Error al solicitar el turno:', error);
@@ -136,7 +136,7 @@ export class SolicitarTurnoComponent {
     }
   })
  
-  /* Verificar si ya está reservado el turno */
+  /* Verifica si ya está reservado el turno */
   if(this.horariosOcupados.includes(this.selectedHora)) {
     this.mensajeError= 'El turno ya ha sido asignado para esa hora.';
     return;
@@ -158,13 +158,14 @@ export class SolicitarTurnoComponent {
   checkTurnosReservados() {
   const turnosRef = collection(this.firestore, 'turnos');
   collectionData(turnosRef).subscribe((turnos: any[]) => {
-    /* Filtrar turnos para la fecha seleccionada */
+    /* Filtra los turnos para la fecha seleccionada */
     const turnosParaFecha = turnos.filter(turno => turno.fecha === this.selectedDate);
-    /* Mapear las horas ocupadas */
+    /* Mapea las horas ocupadas */
     this.horariosOcupados = turnosParaFecha.map(turno => turno.hora);
     });
   }
 
+  /* Método para obtener el turno asignado del usuario */
   getTurnoAsignado(userId: string){
     
     this.turnoService.getUserTurno(userId).then((querySnapshot) => {
@@ -173,12 +174,12 @@ export class SolicitarTurnoComponent {
       console.log('Turno recuperado', turnos);
       
       if(turnos.length > 0){
-        this.turnoAsignado= turnos [0];
+        this.turnoAsignado= turnos [0]; /* Agarra el primer valor/turno si existe */
         console.log('turno asignado', this.turnoAsignado);
 
-        this.turnoForm.disable();
+        this.turnoForm.disable(); /* Se deshabilita el formulario si el turno existe */
       } else {
-        console.log('No se encontró un turno para este usuario');
+        console.log('No se encontró un turno para este usuario'); /* Si no hay turno, el formulario estará habilitado */
       }
      } else {
       console.log('No se encontraron turnos en la base de datos para este usuario');

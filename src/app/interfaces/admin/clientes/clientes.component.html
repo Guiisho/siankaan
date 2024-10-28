@@ -1,97 +1,96 @@
-
-
 <h2>Clientes</h2>
 
 <div class="wrapper2">
-<!-- Button trigger modal -->
-<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  	+ Añadir cliente
-</button>
+  <!-- Botón para añadir cliente -->
+  <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    + Añadir cliente
+  </button>
 
+  <!-- Modal de Añadir/Editar Cliente -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            {{ turnoSeleccionado ? 'Editar cliente' : 'Añadir cliente' }}
+          </h1>
+        </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir cliente</h1>
+        <form [formGroup]="turnoForm" (ngSubmit)="guardarCambios()">
+          <div class="modal-body">
+            <label for="nombre">Nombre completo</label>
+            <input class="form-control mb-3" type="text" id="nombre" formControlName="nombre" required>
+          </div>
+
+          <div class="modal-body">
+            <label for="telefono">Teléfono</label>
+            <input class="form-control mb-3" type="number" id="telefono" formControlName="telefono" required>
+          </div>
+
+          <div class="modal-body">
+            <label for="usuario">Email del usuario</label>
+            <input class="form-control mb-3" type="text" id="email" formControlName="usuario" required>
+          </div>
+
+          <div class="modal-body">
+            <label for="fecha">Día</label>
+            <input class="form-control mb-3" type="date" id="dia" formControlName="fecha" [min]="tomorrow" required>
+          </div>
+
+          <div class="modal-body">
+            <label for="hora">Hora</label>
+            <select class="form-select mb-3" id="hora" formControlName="hora" required>
+              <option *ngFor="let time of horariosDisponibles" [value]="time">{{ time }}</option>
+            </select>
+          </div>
+
+          <div class="modal-body">
+            <label for="servicio">Servicio</label>
+            <select class="form-select mb-3" id="servicio" formControlName="servicio" required>
+              <option *ngFor="let servicio of servicios" [value]="servicio">{{ servicio }}</option>
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btnClose" data-bs-dismiss="modal" (click)="turnoSeleccionado = null">Cerrar</button>
+            <button type="submit" class="btnAdd" data-bs-dismiss="modal" [disabled]="!turnoForm.valid">
+              {{ turnoSeleccionado ? 'Guardar Cambios' : 'Añadir' }}
+            </button>
+          </div>
+        </form>
       </div>
-
-      <form [formGroup]="turnoForm" (ngSubmit)="addTurno()">
-      <div class="modal-body">
-        <label for="nombre">Nombre completo</label>
-        <input class="form-control mb-3" type="text" id="nombre" formControlName="nombre" required>
-      </div>
-
-      <div class="modal-body">
-        <label for="telefono">Teléfono</label>
-        <input class="form-control mb-3" type="number" id="telefono" formControlName="telefono" required>
-      </div>
-
-      <div class="modal-body">
-        <label for="usuario">Email del usuario</label>
-        <input class="form-control mb-3" type="text" id="email" formControlName="usuario" required>
-      </div>
-
-      <div class="modal-body">
-        <label for="fecha">Día</label>
-        <input class="form-control mb-3" type="date" id="dia" formControlName="fecha" [min]="tomorrow" required>
-      </div>
-
-      <div class="modal-body">
-        <label for="hora">Hora</label>
-        <select class="form-select mb-3" id="hora" formControlName="hora" required>
-          <option *ngFor="let time of horariosDisponibles" [value]="time">
-            {{ time }}
-          </option>
-        </select>
-      </div>
-
-      <div class="modal-body">
-      <label for="servicio">Servicio</label>
-      <select class="form-select mb-3" id="servicio" formControlName="servicio" required>
-        <option *ngFor="let servicio of servicios" [value]="servicio">{{ servicio }}</option>
-      </select>
-    </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btnClose" data-bs-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btnAdd" data-bs-dismiss="modal" [disabled]="!turnoForm.valid || isAddTurno">Añadir</button>
-      </div>
-    </form>
     </div>
   </div>
 </div>
-</div>
-
 
 <div class="wrapper">
-
-<table class="table">
-  <thead class="thead">
-    <tr class="tr">
-      <th>Nombre</th>
-      <th>Teléfono</th>
-      <th>Usuario</th>
-      <th>Hora</th>
-      <th>Dia</th>
-      <th>Servicio</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let turno of turnos">
-      <td>{{ turno.nombre}}</td>
-      <td>{{ turno.telefono}}</td>
-      <td>{{ turno.usuario}}</td>
-      <td>{{ turno.hora }}</td>
-      <td>{{ turno.fecha }}</td>
-      <td>{{ turno.servicio }}</td>
-      <td>
-        <button class="button" (click)="eliminarTurno(turno.id)">Eliminar</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+  <table class="table">
+    <thead class="thead">
+      <tr class="tr">
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>Usuario</th>
+        <th>Hora</th>
+        <th>Dia</th>
+        <th>Servicio</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let turno of turnos">
+        <td>{{ turno.nombre }}</td>
+        <td>{{ turno.telefono }}</td>
+        <td>{{ turno.usuario }}</td>
+        <td>{{ turno.hora }}</td>
+        <td>{{ turno.fecha }}</td>
+        <td>{{ turno.servicio }}</td>
+        <td>
+          <button class="editButton" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="llenarFormulario(turno)">
+            Editar
+          </button>
+          <button class="button" (click)="eliminarTurno(turno.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

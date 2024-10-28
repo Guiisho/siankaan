@@ -12,11 +12,11 @@ export const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'home', component: HomeComponent,},
-    {path: 'productos', component: ProductosComponent, canActivate: [authGuardGuard]},
-    {path: 'servicios', component: ServiciosComponent, canActivate: [authGuardGuard]},
-    {path: 'solicitar-turno', component: SolicitarTurnoComponent, canActivate: [authGuardGuard]},
-    {path: 'clientes', component: ClientesComponent, canActivate: [authGuardGuard]},
-    {path: '', redirectTo: 'home', pathMatch: 'full'},
-    {path: '**', redirectTo: 'login'},
+    {path: 'productos', component: ProductosComponent, canActivate: [authGuardGuard]}, /* Ruta protegida */
+    {path: 'servicios', component: ServiciosComponent, canActivate: [authGuardGuard]}, /* Ruta protegida */
+    {path: 'solicitar-turno', component: SolicitarTurnoComponent, canActivate: [authGuardGuard]}, /* Ruta protegida */
+    {path: 'clientes', component: ClientesComponent, canActivate: [authGuardGuard]}, /* Ruta protegida */
+    {path: '', redirectTo: 'home', pathMatch: 'full'}, /* La página inicializa en Home */
+    {path: '**', redirectTo: 'login'}, /*Si no existe el path, redirige a Login */
    
 ];

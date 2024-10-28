@@ -1,4 +1,5 @@
 export const environment= {
+    /* Mi configuración de Firabase */
     firebaseConfig:{
         apiKey: "AIzaSyB5ENrxRU4jbsNq80miUwPIE713eG1tseU",
      authDomain: "siankaan-consultorio.firebaseapp.com",

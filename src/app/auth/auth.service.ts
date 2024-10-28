@@ -30,9 +30,9 @@ export class AuthService{
         return new Promise((resolve, reject) => {
           this.auth.onAuthStateChanged((user) => {
             if (user) {
-              resolve(user); // Usuario autenticado
+              resolve(user); /* Usuario autenticado */
             } else {
-              reject(null);  // No hay usuario autenticado
+              reject(null);  /* No hay usuario autenticado */
             }
           }, error => {
             reject(error);
@@ -40,6 +40,7 @@ export class AuthService{
         });
       }
     
+      /* Obtiene la sesión inicia o cerrada. Este método es permanente */
     getAuthState(){
         return authState(this.auth);
     }
@@ -62,7 +63,7 @@ export class AuthService{
                 email: user.email,
                 role: role,
             });
-          this.getUserRole(user.uid); // Verifica el rol después del inicio de sesión
+          this.getUserRole(user.uid); /* Verifica el rol después del inicio de sesión */
         }
       }
 
@@ -72,6 +73,7 @@ export class AuthService{
             const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
             const user = userCredential.user;
 
+            /* Si el usuario tiene este mail es administrador. Si no lo tiene, es usuario */
             let role = 'user';
             if(email === 'alarconguille556@gmail.com'){
                 role= 'admin';
@@ -92,7 +94,6 @@ export class AuthService{
     }
 
     /* Obtener el rol del usuario actual */
-
     async getUserRole(uid: string) {
         const userDoc= doc(this.firestore, 'users', uid);
         const docSnapshot = await getDoc(userDoc);
@@ -102,7 +103,7 @@ export class AuthService{
         }
     }
 
-     // Método para obtener el UID del usuario autenticado
+     /* Método para obtener el UID del usuario autenticado */
   async getUserId(): Promise<string | null> {
     const user = await this.getCurrentUser();
       return user ? user.uid : null;

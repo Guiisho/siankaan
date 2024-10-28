@@ -8,23 +8,21 @@
 
 .logout{
     background-color: rgb(199, 46, 173);
-    transition: 0.2s;
+    transition: 0.2s ease;
     cursor: pointer;
 }
 
 .logout:hover{
-    transition: 0.2s;
     background-color: rgb(118, 51, 173);
 }
 
 .nav-link{
-    transition: 0.5s;
+    transition: 0.5s ease;
     border-bottom: 2px solid transparent; /*Agrega una linea debajo del texto*/
 }
 
 .nav-link:hover{
     color: rgb(241, 182, 243);
-    transition: 0.5s;
     border-bottom: 2px solid rgb(241, 182, 243);
 }
 

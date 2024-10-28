@@ -1,46 +1,54 @@
-h3{
+/* Títulos */
+h3 {
     text-align: center;
     color: #fff;
     font-size: 30px;
     margin-top: 3rem;
 }
 
-p{
+p {
     color: #c5c5c5;
 }
 
-
-.wrapper{
+/* Contenedor */
+.wrapper {
     padding: 10px 10%;
 }
 
-#card-area{
+#card-area {
     padding: 50px 0;
 }
 
-.box-area{
+.box-area {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-gap: 40px;
     margin-top: 50px;
 }
 
-.box{
+/* Carta principal */
+.box {
     border-radius: 10px;
     position: relative;
     overflow: hidden;
     box-shadow: 0px 15px 40px 0px #923392;
     cursor: pointer;
-    transition: 0.3s;
     height: 380px;
+    transition: transform 0.3s ease;
 }
 
-.box-img{
+/* Imagen dentro de la carta */
+img {
+    height: 100%;
+    width: 100%;
     border-radius: 10px;
     display: block;
+    object-fit: cover;
+    transition: transform 1s ease; /* Transición de zoom */
 }
 
-.overlay{
+/* Overlay de la carta */
+.overlay {
     height: 0;
     width: 100%;
     background: linear-gradient(transparent, #8e2dac 88%);
@@ -56,10 +64,10 @@ p{
     padding: 0 40px;
     text-align: center;
     font-size: 14px;
-    transition: height 0.5s;
+    transition: height 0.5s ease; /* Transición para que el overlay suba suavemente */
 }
 
-.overlay h3{
+.overlay h3 {
     font-weight: 500;
     margin-bottom: 5px;
     margin-top: 80%;
@@ -67,7 +75,7 @@ p{
     letter-spacing: 2px;
 }
 
-.overlay a{
+.overlay a {
     margin-top: 10px;
     color: #d61385;
     text-decoration: none;
@@ -79,21 +87,20 @@ p{
     transition: 0.3s;
 }
 
-.box:hover{
-    transition: 0.3s;
-    transform: scale(1.1) translateY(-5px);
+/* Zoom de imagen en hover */
+.box:hover img {
+    transform: scale(1.2); /* Zoom en la imagen */
 }
 
-.overlay a:hover{
-    transition: 0.3s;
+.box:hover .overlay {
+    height: 100%; /* Muestra el overlay completo */
+}
+
+.box:hover {
+    transform: translateY(-10px); /* Efecto de elevación sin escalado */
+}
+
+.overlay a:hover {
     background-color: #d61385;
     color: #fff;
-}
-
-.boxLhover img{
-    transform: scale(1.2);
-}
-
-.box:hover .overlay{
-    height: 100%;
 }

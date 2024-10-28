@@ -1,5 +1,5 @@
 
-
+<!-- Barra de navegación -->
 <nav *ngIf="isLoggedIn" class="navbar navbar-expand-lg navbar-dark">
   <div class="container">
     <a class="navbar-brand fs-4" routerLink="/home">Siankaan</a>
@@ -41,7 +41,7 @@
 </nav>
 
 
-
+<!-- Si no está logueado, solo se muestra Home y el botón de iniciar sesión -->
 <nav *ngIf="!isLoggedIn" class="navbar navbar-expand-lg navbar-dark">
   <div class="container">
     <a class="navbar-brand fs-4" routerLink="/home">Siankaan</a>

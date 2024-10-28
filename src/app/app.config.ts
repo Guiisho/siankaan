@@ -9,6 +9,7 @@ import { environment } from './environments';
 
 
 export const appConfig: ApplicationConfig = {
+  /* Inicializa Firestore */
   providers: [provideRouter(routes), provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
      provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())]

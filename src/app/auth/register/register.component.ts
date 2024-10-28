@@ -23,6 +23,7 @@ export class RegisterComponent {
     });
   }
 
+  /* Método para registrar un usuario */
   onRegister() {
     const {email, password } = this.registerForm.value;
     this.authService.register(email, password).then(() => {

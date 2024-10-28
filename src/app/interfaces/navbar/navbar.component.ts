@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
- 
+ /* Cierra sesión */
   logOut(){
     this.authService.logOut();
   }
