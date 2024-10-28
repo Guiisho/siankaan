@@ -34,6 +34,8 @@ export class AuthService{
             } else {
               reject(null);  // No hay usuario autenticado
             }
+          }, error => {
+            reject(error);
           });
         });
       }

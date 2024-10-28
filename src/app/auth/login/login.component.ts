@@ -37,9 +37,11 @@ export class LoginComponent {
           if (role === 'admin') {
              // Redirigir a la vista home si es admin
              this.authService.router.navigate(['/home']);
+             console.log('Bienvenido administrador');
           } else {
             // Redirigir a la vista home si es usuario normal
             this.authService.router.navigate(['/home']);
+            console.log('Bienvenido');
           }
         })
       }

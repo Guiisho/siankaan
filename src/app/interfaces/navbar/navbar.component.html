@@ -39,3 +39,20 @@
     </div>
   </div>
 </nav>
+
+
+
+<nav *ngIf="!isLoggedIn" class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand fs-4" routerLink="/home">Siankaan</a>
+    <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+    </button>
+
+        <!-- Iniciar sesión -->
+
+        <div class="d-flex flex-lg-row flex-column justify-content-center align-items-center gap-3">
+          <a class="logout text-white text-decoration-none px-3 py-1 rounded-4" routerLink="/login">Iniciar sesión</a>
+        </div>
+      </div>
+</nav>
+

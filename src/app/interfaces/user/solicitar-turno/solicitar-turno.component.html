@@ -7,18 +7,18 @@
   <!-- Titulo -->
   <h3 class="mb-3">Ingresa tus datos para asignar un turno</h3>
 
-  <label for="nombre">Nombre completo:</label>
+  <label for="nombre">Nombre completo</label>
   <input class="form-control mb-3" type="text" id="nombre" name="nombre" [(ngModel)]="selectedNombre" required>
 
-  <label for="telefono">Teléfono:</label>
+  <label for="telefono">Teléfono</label>
   <input class="form-control mb-3" type="number" id="telefono" name="telefono" [(ngModel)]="selectedTelefono" required>
 
   <!-- Fecha -->
-  <label for="fecha">Día:</label>
+  <label for="fecha">Día</label>
   <input class="form-control mb-3" type="date" id="fecha" [(ngModel)]="selectedDate" (change)="checkTurnosReservados()" [min]="tomorrow" name="fecha" required>
   
   <!-- Hora -->
-  <label for="hora">Hora:</label>
+  <label for="hora">Hora</label>
   <select class="form-select mb-3" id="hora" [(ngModel)]="selectedHora" name="hora" required>
     <option *ngFor="let time of horariosDisponibles" [value]="time" [disabled]="isDisabled(time)">
       {{ time }}
@@ -26,7 +26,7 @@
   </select>
 
   <!-- Servicio -->
-  <label for="servicio">Servicio:</label>
+  <label for="servicio">Servicio</label>
   <select class="form-select mb-3" id="servicio" [(ngModel)]="selectedServicio" name="servicio" required>
     <option *ngFor="let servicio of servicios" [value]="servicio">{{ servicio }}</option>
   </select>
