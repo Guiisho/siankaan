@@ -97,7 +97,7 @@ export class ClientesComponent {
 
   /* Eliminar turno del usuario */
   async eliminarTurno(id: string): Promise<void>{
-    const turnoDocRef= doc(this.firestore,  `turnos/${id}`);
+    const turnoDocRef= doc(this.firestore, 'turnos/' + id);
     await deleteDoc(turnoDocRef);
     /* Filtra el turno eliminado del arreglo local de turnos */
     this.turnos = this.turnos.filter(turno => turno.id !== id);

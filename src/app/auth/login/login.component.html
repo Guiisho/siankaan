@@ -1,26 +1,58 @@
-
 <!-- Formulario para iniciar sesión -->
 <div class="wrapper">
   <div class="body">
     <img src="../../../assets/Imagenes/user.png" alt="">
-  <h1><strong>Iniciar sesión</strong></h1>
+    <h1><strong>Iniciar sesión</strong></h1>
 
-  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-    <div class="form-floating mb-3">
-      <input class="form-control" formControlName="email" placeholder="Campo obligatorio" required>
-      <label>Correo electrónico</label>
-    </div>
-    <div class="form-floating mb-3">
-      <input class="form-control" type="password" formControlName="password" placeholder="Campo obligatorio" required>
-      <label>Contraseña</label>
-    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="form-floating mb-3">
+        <input class="form-control" type="email"
+          formControlName="email" 
+          placeholder="Correo electrónico">
+        <label>Correo electrónico</label>
+      </div>
 
-    <div class="d-grid gap-2">
-      <button class="btn btn-primary btn-lg" type="submit"> <strong>Ingresar</strong></button>
-    </div>
+      <div class="form-floating mb-3">
+        <input class="form-control" type="password" 
+          formControlName="password" 
+          placeholder="Contraseña">
+        <label>Contraseña</label>
+      </div>
 
-    <p class="mt-3"><strong>¿No tienes una cuenta? </strong> <a routerLink="/register"> <strong>Registrate</strong></a></p>
-  </form>
+      <div class="d-grid gap-2">
+        <button class="btn btn-primary btn-lg" type="submit" [disabled]="!loginForm.valid">
+          <strong>Iniciar sesión</strong>
+        </button>
+      </div>
+
+      <p class="bot-text mt-3"><strong>¿No tienes una cuenta? </strong> <a routerLink="/register"> <strong>Regístrate</strong></a></p>
+
+      <!-- Mensajes de error -->
+      <p class="error-message mt-3 text-danger" *ngIf="userNotFound">Usuario no existe.</p>
+      <p class="error-message mt-3 text-danger" *ngIf="invalidCredentials">Datos inválidos.</p>
+    </form>
   </div>
 </div>
 
+<div class="toast-container position-fixed top-0 end-0 p-3">
+  <!-- Toast de error -->
+  <div
+    class="toast align-items-center text-bg-danger border-3"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    #errorToast
+  >
+    <div class="d-flex">
+      <div class="toast-body">
+        Verifica los datos ingresados.
+      </div>
+      <button
+        type="button"
+        class="btn-close btn-close-white me-2 m-auto"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+  </div>
+</div>

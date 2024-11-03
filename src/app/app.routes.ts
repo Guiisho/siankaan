@@ -17,6 +17,6 @@ export const routes: Routes = [
     {path: 'solicitar-turno', component: SolicitarTurnoComponent, canActivate: [authGuardGuard]}, /* Ruta protegida */
     {path: 'clientes', component: ClientesComponent, canActivate: [authGuardGuard]}, /* Ruta protegida */
     {path: '', redirectTo: 'home', pathMatch: 'full'}, /* La página inicializa en Home */
-    {path: '**', redirectTo: 'login'}, /*Si no existe el path, redirige a Login */
+    {path: '**', redirectTo: 'home'}, /*Si no existe el path, redirige a Home */
    
 ];
