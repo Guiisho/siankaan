@@ -13,6 +13,9 @@ export class AuthService{
     public user: any= null;
     public userRole: string | null = null;
 
+    // Define una lista de correos electrónicos con rol de administrador
+    private adminEmails: string[] = ['alarconguille556@gmail.com', 'blanca9776@gmail.com'];
+
     constructor( public router: Router,
         private auth: Auth,
         private firestore: Firestore,
@@ -39,63 +42,51 @@ export class AuthService{
           });
         });
       }
-    
-      /* Obtiene la sesión inicia o cerrada. Este método es permanente */
+
     getAuthState(){
         return authState(this.auth);
     }
 
-    isLoggedIn():boolean{
+    isLoggedIn(): boolean {
         return this.currentUser != null;
     }
-   
 
-
-    /* Inicia sesión si el usuario está registrado */
     async login(email: string, password: string) {
         const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
         const user = userCredential.user;
-    
+
         if (user) {
-            const role= email === 'alarconguille556@gmail.com' ? 'admin' : 'user';
-            const userDocRef= doc(this.firestore, `users/${user.uid}`);
+            // Verifica si el correo está en la lista de administradores
+            const role = this.adminEmails.includes(email) ? 'admin' : 'user';
+            const userDocRef = doc(this.firestore, `users/${user.uid}`);
             await setDoc(userDocRef, {
                 email: user.email,
                 role: role,
             });
-          this.getUserRole(user.uid); /* Verifica el rol después del inicio de sesión */
+            this.getUserRole(user.uid); /* Verifica el rol después del inicio de sesión */
         }
-      }
+    }
 
-    /* Registra al usuario con un rol específico */
     async register(email: string, password: string){
         try {
             const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
             const user = userCredential.user;
 
-            /* Si el usuario tiene este mail es administrador. Si no lo tiene, es usuario */
-            let role = 'user';
-            if(email === 'alarconguille556@gmail.com'){
-                role= 'admin';
-                this.router.navigate(['/home']);
-            } else{
-                role= 'user';
-                this.router.navigate(['/home']);
-            }
+            // Verifica si el correo está en la lista de administradores
+            const role = this.adminEmails.includes(email) ? 'admin' : 'user';
 
             await setDoc(doc(this.firestore, `users/${user.uid}`), {
                 email: user.email,
                 role: role
             });
+            this.router.navigate(['/home']); // Redirige después del registro
         } catch (error) {
             console.log('Error al registrar', error);
         }
-       
     }
 
-    /* Obtener el rol del usuario actual */
     async getUserRole(uid: string) {
-        const userDoc= doc(this.firestore, 'users', uid);
+        const userDoc = doc(this.firestore, 'users', uid);
         const docSnapshot = await getDoc(userDoc);
         if (docSnapshot.exists()) {
             const data = docSnapshot.data();
@@ -103,18 +94,16 @@ export class AuthService{
         }
     }
 
-     /* Método para obtener el UID del usuario autenticado */
-  async getUserId(): Promise<string | null> {
-    const user = await this.getCurrentUser();
-      return user ? user.uid : null;
-  }
+    async getUserId(): Promise<string | null> {
+        const user = await this.getCurrentUser();
+        return user ? user.uid : null;
+    }
 
-      /*Cierra sesión y vuelve al apartado Login*/
-      async logOut(){
+    async logOut(){
         await this.auth.signOut().then(() => {
             this.router.navigate(['/login']);
         });
-        this.userRole= null;
+        this.userRole = null;
         this.router.navigate(['/login']); /* Redirige al apartado Login después de cerrar sesión */
     }
 }

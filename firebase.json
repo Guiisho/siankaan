@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/siankaan-consultorio",
+    "public": "dist/siankaan-consultorio/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

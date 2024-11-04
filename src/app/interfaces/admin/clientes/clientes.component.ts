@@ -28,6 +28,8 @@ export class ClientesComponent {
   tomorrow: string='';
   turnoForm: FormGroup;
   isAddTurno: boolean = false;
+  // Variable para almacenar el cliente seleccionado
+clienteSeleccionado: any = null;
 
   constructor(private firestore: Firestore,
     private fb: FormBuilder,
@@ -153,4 +155,15 @@ export class ClientesComponent {
       this.turnoSeleccionado = turno;  /* Guardar el turno actual para identificar si es edición */
       this.turnoForm.patchValue(turno);  /* Llenar el formulario con los datos del turno seleccionado */
     }
+
+    // Método para iniciar el proceso de añadir un nuevo cliente
+iniciarAgregarCliente() {
+  this.turnoSeleccionado = null;
+  this.turnoForm.reset();  // Opcional: Resetea el formulario
+}
+
+// Método para ver los detalles del cliente en el modal
+verDetalles(turno: any) {
+  this.clienteSeleccionado = turno;
+}
 }

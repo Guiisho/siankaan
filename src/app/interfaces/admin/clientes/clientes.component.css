@@ -26,6 +26,7 @@ h2{
 
 
 button.button{
+    margin: 2px;
     border-radius: 15px;
     background-color: rgb(233, 16, 16);
     color: #fff;
@@ -39,18 +40,29 @@ button.button:hover{
 }
 
 .editButton{
-    background-color: rgb(235, 180, 79);
-    margin: 5px;
+    margin: 2px;
     border-radius: 15px;
+    background-color: rgb(231, 173, 12);
     color: #fff;
-    box-shadow: 0px 2px 4px 0px #fa8704;
-    border-color: #fa8704;
+    box-shadow: 0px 2px 4px 0px #000000;
+    border-color: rgba(214, 152, 16, 0.877);
     transition: 0.3s ease;
 }
 
 .editButton:hover{
     background-color: #fa8704;
 }
+
+.viewButton{
+    margin: 2px;
+    border-radius: 15px;
+    background-color: rgb(213, 34, 219);
+    color: #fff;
+    box-shadow: 0px 2px 4px 0px #000000;
+    border-color: #c40fc4;
+    transition: 0.3s ease;
+}
+
 
 button.btn{
     background-color: rgb(213, 34, 219);
@@ -83,6 +95,11 @@ button.btnClose{
     transition: 0.3s;
 }
 
+
+.viewButton:hover{
+    background-color: #921492;
+}
+
 /* Quita las flechas del input type number */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button{
@@ -93,3 +110,10 @@ button.btnAdd[disabled]{
     background-color: grey;
     border-color: grey;
 }
+
+/* Ocultar columnas en dispositivos móviles */
+@media (max-width: 768px) {
+    .d-md-table-cell {
+      display: none;
+    }
+  }

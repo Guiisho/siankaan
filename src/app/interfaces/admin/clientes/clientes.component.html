@@ -2,7 +2,7 @@
 
 <div class="wrapper2">
   <!-- Botón para añadir cliente -->
-  <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="iniciarAgregarCliente()">
     + Añadir cliente
   </button>
 
@@ -67,24 +67,27 @@
   <table class="table">
     <thead class="thead">
       <tr class="tr">
-        <th>Nombre</th>
-        <th>Teléfono</th>
+        <th class="d-none d-md-table-cell">Nombre</th>
+        <th class="d-none d-md-table-cell">Teléfono</th>
         <th>Usuario</th>
-        <th>Hora</th>
-        <th>Dia</th>
-        <th>Servicio</th>
+        <th class="d-none d-md-table-cell">Hora</th>
+        <th class="d-none d-md-table-cell">Dia</th>
+        <th class="d-none d-md-table-cell">Servicio</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let turno of turnos">
-        <td>{{ turno.nombre }}</td>
-        <td>{{ turno.telefono }}</td>
+        <td class="d-none d-md-table-cell">{{ turno.nombre }}</td>
+        <td class="d-none d-md-table-cell">{{ turno.telefono }}</td>
         <td>{{ turno.usuario }}</td>
-        <td>{{ turno.hora }}</td>
-        <td>{{ turno.fecha }}</td>
-        <td>{{ turno.servicio }}</td>
+        <td class="d-none d-md-table-cell">{{ turno.hora }}</td>
+        <td class="d-none d-md-table-cell">{{ turno.fecha }}</td>
+        <td class="d-none d-md-table-cell">{{ turno.servicio }}</td>
         <td>
+          <button class="viewButton" data-bs-toggle="modal" data-bs-target="#verModal" (click)="verDetalles(turno)">
+            Ver
+          </button>
           <button class="editButton" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="llenarFormulario(turno)">
             Editar
           </button>
@@ -93,4 +96,25 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+<div class="modal fade" id="verModal" tabindex="-1" aria-labelledby="verModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="verModalLabel">Detalles del Cliente</h5>
+      </div>
+      <div class="modal-body">
+        <p><strong>Nombre:</strong> {{ clienteSeleccionado?.nombre }}</p>
+        <p><strong>Teléfono:</strong> {{ clienteSeleccionado?.telefono }}</p>
+        <p><strong>Email:</strong> {{ clienteSeleccionado?.usuario }}</p>
+        <p><strong>Hora:</strong> {{ clienteSeleccionado?.hora }}</p>
+        <p><strong>Día:</strong> {{ clienteSeleccionado?.fecha }}</p>
+        <p><strong>Servicio:</strong> {{ clienteSeleccionado?.servicio }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btnClose" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div>
