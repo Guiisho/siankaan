@@ -7,6 +7,7 @@ import { ClientesComponent } from './interfaces/admin/clientes/clientes.componen
 import { authGuardGuard } from './auth/auth-guard.guard';
 import { ProductosComponent } from './interfaces/productos/productos.component';
 import { ServiciosComponent } from './interfaces/servicios/servicios.component';
+import { TallerComponent } from './interfaces/taller/taller.component';
 
 export const routes: Routes = [
     {path: 'login', component: LoginComponent},
@@ -16,6 +17,7 @@ export const routes: Routes = [
     {path: 'servicios', component: ServiciosComponent, canActivate: [authGuardGuard]}, /* Ruta protegida */
     {path: 'solicitar-turno', component: SolicitarTurnoComponent, canActivate: [authGuardGuard]}, /* Ruta protegida */
     {path: 'clientes', component: ClientesComponent, canActivate: [authGuardGuard]}, /* Ruta protegida */
+    {path: 'talleres', component: TallerComponent, canActivate: [authGuardGuard]}, /* Ruta protegida */
     {path: '', redirectTo: 'home', pathMatch: 'full'}, /* La página inicializa en Home */
     {path: '**', redirectTo: 'home'}, /*Si no existe el path, redirige a Home */
    

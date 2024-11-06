@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 })
 export class SolicitarTurnoComponent {
 
-  servicios: string[] = ['Consulta General', 'Terapia', 'Constelación'];
+  servicios: string[] = ['Sesión de coaching', 'Terapia de equilibración', 'Hipnosis de sanación', 'Constelación individual'];
   selectedNombre: string= '';
   selectedTelefono: string= '';
   selectedDate: string= '';
@@ -27,7 +27,7 @@ export class SolicitarTurnoComponent {
   todayDate: string= '';
   tomorrow: string='';
   horariosOcupados: string[]= [];
-  horariosDisponibles= ['9:00', '11:00', '13:00', '15:00', '17:00'];
+  horariosDisponibles= ['9:00', '11:00', '13:00', '15:00', '17:00', 'Consultar otro horario'];
   userName: string | null= null;
   turnoForm: FormGroup;
   isTurnoAsignado: boolean= false; /* Para deshabilitar el botón si ya está asignado */

@@ -96,19 +96,22 @@ section{
 }
 
 @keyframes words {
-    0%, 20% {
+    0%, 16% {
+        content: "Consteladora";
+    }
+    17%, 33% {
         content: "Terapeuta";
     }
-    21%, 40%{
+    34%, 50%{
         content: "Coach Espiritual";
     }
-    41%, 60%{
+    51%, 67%{
         content: "Reikista";
     }
-    61%, 80%{
+    68%, 84%{
         content: "Coach Ontológica";
     }
-    81%, 100%{
+    85%, 100%{
         content: "Biomagnetista";
     }
 }
