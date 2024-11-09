@@ -10,6 +10,11 @@ p {
     color: #c5c5c5;
 }
 
+h4{
+    color: #fff;
+}
+
+
 /* Contenedor */
 .wrapper {
     padding: 10px 10%;
