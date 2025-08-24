@@ -21,8 +21,8 @@ export class ClientesComponent {
   turnoSeleccionado: any = null;
   turnos$: Observable<any[]>;
   turnos: any[] = [];
-  servicios: string[] = ['Consulta General', 'Terapia', 'Constelación'];
-  horariosDisponibles= ['9:00', '11:00', '13:00', '15:00', '17:00'];
+  servicios: string[] = ['Sesión de coaching', 'Terapia de equilibración', 'Hipnosis de sanación', 'Constelación individual'];
+  horariosDisponibles= ['9:30', '11:00', '14:00', '15:30', '17:00', 'Consultar otro horario'];
   today: Date= new Date();
   todayDate: string= '';
   tomorrow: string='';

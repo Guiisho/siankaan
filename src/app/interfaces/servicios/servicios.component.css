@@ -6,9 +6,16 @@ h3 {
     margin-top: 3rem;
 }
 
+h4{
+    color: #fff;
+}
+
 p {
+    margin-top: 1rem;
     color: #c5c5c5;
 }
+
+
 
 /* Contenedor */
 .wrapper {
@@ -51,7 +58,7 @@ img {
 .overlay {
     height: 0;
     width: 100%;
-    background: linear-gradient(transparent, #8e2dac 88%);
+    background: linear-gradient(transparent, #8e2dac 75%);
     border-radius: 10px;
     position: absolute;
     left: 0;
@@ -73,13 +80,6 @@ img {
     margin-top: 80%;
     font-size: 30px;
     letter-spacing: 2px;
-}
-
-.overlay h4 {
-    color: #fff;
-    font-weight: 200;
-    font-size: 20px;
-    letter-spacing: 1px;
 }
 
 .overlay a {

@@ -27,7 +27,7 @@ export class SolicitarTurnoComponent {
   todayDate: string= '';
   tomorrow: string='';
   horariosOcupados: string[]= [];
-  horariosDisponibles= ['9:00', '11:00', '13:00', '15:00', '17:00', 'Consultar otro horario'];
+  horariosDisponibles= ['9:30', '11:00', '14:00', '15:30', '17:00', 'Consultar otro horario'];
   userName: string | null= null;
   turnoForm: FormGroup;
   isTurnoAsignado: boolean= false; /* Para deshabilitar el botón si ya está asignado */
